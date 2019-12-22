@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "tmux-ssh 0.1"
+echo
+
+if [[ -z $1 ]]; then
+    echo "ERROR: hostname not provided"
+    echo
+    echo "Usage: $0 HOSTNAME"
+    echo
+    exit
+fi
+
+read -r -d '' SCRIPT <<'EOF'
+if [[ -z $(tmux -L main ls) ]];
+    then tmux -L main;
+    else tmux -L main a;
+fi
+EOF
+
+ssh -t $1 "${SCRIPT}"
